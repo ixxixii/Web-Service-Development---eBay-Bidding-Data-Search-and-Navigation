@@ -1,0 +1,47 @@
+mysql> CREATE TABLE Actors(Name char(40),Movie char(80),Year int,Role char(40));
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DESCRIBE Actors;
++-------+----------+------+-----+---------+-------+
+| Field | Type     | Null | Key | Default | Extra |
++-------+----------+------+-----+---------+-------+
+| Name  | char(40) | YES  |     | NULL    |       |
+| Movie | char(80) | YES  |     | NULL    |       |
+| Year  | int(11)  | YES  |     | NULL    |       |
+| Role  | char(40) | YES  |     | NULL    |       |
++-------+----------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> LOAD DATA LOCAL INFILE '~/data/actors.csv' INTO TABLE Actors
+    -> FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"';
+Query OK, 206 rows affected (0.00 sec)
+Records: 206  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> SELECT Name FROM Actors WHERE Movie = 'Die Another Day';
++--------------------+
+| Name               |
++--------------------+
+| Brosnan, Pierce    |
+| Cleese, John       |
+| Echevarria, Emilio |
+| Ho, Thomas         |
+| Lee, Will Yun      |
+| Madsen, Michael    |
+| Makoare, Lawrence  |
+| Salmon, Colin      |
+| Stephens, Toby     |
+| Yune, Rick         |
++--------------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT Name FROM Actors WHERE Movie = 'Die Another Day'
+    -> INTO OUTFILE '~/vm-shared/name.txt';
+ERROR 1 (HY000): Can't create/write to file '/etc/mysql/vm-shared/name.txt' (Errcode: 2)
+mysql> SELECT Name FROM Actors WHERE Movie = 'Die Another Day' INTO OUTFILE '~/data/name.txt';
+ERROR 1 (HY000): Can't create/write to file '/etc/mysql/data/name.txt' (Errcode: 2)
+mysql> SELECT Name FROM Actors WHERE Movie = 'Die Another Day' INTO OUTFILE '~/data/name.csv';
+ERROR 1 (HY000): Can't create/write to file '/etc/mysql/data/name.csv' (Errcode: 2)
+mysql> DROP TABLE Actors;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> NOTEE;
