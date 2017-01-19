@@ -4,7 +4,7 @@ import java.security.*;
 public class ComputeSHA{
 
 		static MessageDigest md; // static field is better
-		static FileInputStream file;
+		static InputStream file; // InputStream instead of FileInputStream is better
 
 	public static void main(String[] args) {
 
